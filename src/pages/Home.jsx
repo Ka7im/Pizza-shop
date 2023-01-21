@@ -4,26 +4,70 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import { useEffect, useState } from 'react';
+import Pagination from '../components/Pagination';
 
 const Home = () => {
     const [pizzas, setPizzas] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
+    const [activeSortIndex, setActiveSortIndex] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isVisible, setIsVisible] = useState(false);
+
+    let sortBy;
+
+    switch (activeSortIndex) {
+        case 0:
+            sortBy = 'rating';
+            break;
+        case 1:
+            sortBy = 'price';
+            break;
+        case 2:
+            sortBy = 'title';
+            break;
+        default:
+            throw Error('Unknown active sort index');
+    }
+
+    const categorySort =
+        activeCategoryIndex === 0 ? '' : `category=${activeCategoryIndex}`;
+
+    const onClickCategory = (categoryIndex) => {
+        setActiveCategoryIndex(categoryIndex);
+    };
+
+    const onClickItem = (item, index) => {
+        setActiveSortIndex(index);
+        setIsVisible(false);
+    };
 
     useEffect(() => {
-        fetch('https://63c96cbcc3e2021b2d573b81.mockapi.io/items')
+        setIsLoading(true);
+        fetch(
+            `https://63c96cbcc3e2021b2d573b81.mockapi.io/items?page=${currentPage}&limit=4&sortBy=${sortBy}&order=asc&${categorySort}`
+        )
             .then((data) => data.json())
             .then((res) => {
                 setPizzas(res);
                 setIsLoading(false);
             });
         window.scrollTo(0, 0);
-    }, []);
+    }, [categorySort, sortBy, currentPage]);
 
     return (
         <div className='container'>
             <div className='content__top'>
-                <Categories />
-                <Sort />
+                <Categories
+                    onClickCategory={onClickCategory}
+                    activeCategoryIndex={activeCategoryIndex}
+                />
+                <Sort
+                    onClickItem={onClickItem}
+                    isVisible={isVisible}
+                    setIsVisible={setIsVisible}
+                    activeSortIndex={activeSortIndex}
+                />
             </div>
             <h2 className='content__title'>Все пиццы</h2>
             <div className='content__items'>
@@ -35,6 +79,7 @@ const Home = () => {
                           return <PizzaBlock key={pizza.id} {...pizza} />;
                       })}
             </div>
+            <Pagination onClickPage={(page) => setCurrentPage(page)} />
         </div>
     );
 };

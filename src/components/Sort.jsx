@@ -1,15 +1,6 @@
-import { useState } from 'react';
-
-const Sort = () => {
-    const [isVisible, setIsVisible] = useState(false);
-    const [activeSortIndex, setActiveSortIndex] = useState(0);
+const Sort = ({ onClickItem, isVisible, setIsVisible, activeSortIndex }) => {
     const sortList = ['популярности', 'цене', 'алфавиту'];
     const selectedSort = sortList[activeSortIndex];
-
-    const onClickItem = (item, index) => {
-        setActiveSortIndex(index);
-        setIsVisible(false);
-    };
 
     return (
         <div className='sort'>
