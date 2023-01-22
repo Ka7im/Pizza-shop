@@ -1,6 +1,11 @@
+import { useContext } from 'react';
+import { SearchContext } from '../../App';
 import styles from './Search.module.scss';
+import closeIcon from '../../assets/img/closeIcon.svg';
 
 const Search = () => {
+    const { searchValue, setSearchValue } = useContext(SearchContext);
+
     return (
         <div className={styles.root}>
             <svg
@@ -13,7 +18,20 @@ const Search = () => {
                     <path d='M29.71,28.29l-6.5-6.5-.07,0a12,12,0,1,0-1.39,1.39s0,.05,0,.07l6.5,6.5a1,1,0,0,0,1.42,0A1,1,0,0,0,29.71,28.29ZM14,24A10,10,0,1,1,24,14,10,10,0,0,1,14,24Z' />
                 </g>
             </svg>
-            <input className={styles.input} placeholder='Поиск пиццы ...' />
+            <input
+                className={styles.input}
+                placeholder='Поиск пиццы ...'
+                onChange={(e) => setSearchValue(e.target.value)}
+                value={searchValue}
+            />
+            {searchValue && (
+                <img
+                    src={closeIcon}
+                    alt='closeIcon'
+                    className={styles.closeIcon}
+                    onClick={() => setSearchValue('')}
+                />
+            )}
         </div>
     );
 };
