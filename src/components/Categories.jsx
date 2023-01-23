@@ -1,4 +1,12 @@
-const Categories = ({ onClickCategory, activeCategoryIndex }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveCategoryIndex } from '../redux/slices/filterSlice';
+
+const Categories = () => {
+    const dispatch = useDispatch();
+    const activeCategoryIndex = useSelector(
+        (state) => state.filters.activeCategoryIndex
+    );
+
     const categories = [
         'Все',
         'Мясные',
@@ -18,7 +26,9 @@ const Categories = ({ onClickCategory, activeCategoryIndex }) => {
                             className={
                                 activeCategoryIndex === index ? 'active' : ''
                             }
-                            onClick={() => onClickCategory(index)}
+                            onClick={() =>
+                                dispatch(setActiveCategoryIndex(index))
+                            }
                         >
                             {category}
                         </li>

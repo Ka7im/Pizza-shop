@@ -1,6 +1,11 @@
-const Sort = ({ onClickItem, isVisible, setIsVisible, activeSortIndex }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { setSortType, setIsSortVisible } from '../redux/slices/filterSlice';
+
+const Sort = () => {
+    const dispatch = useDispatch();
+    const selectedSort = useSelector((state) => state.filters.sortType.name);
+    const isVisible = useSelector((state) => state.filters.isSortVisible);
     const sortList = ['популярности', 'цене', 'алфавиту'];
-    const selectedSort = sortList[activeSortIndex];
 
     return (
         <div className='sort'>
@@ -18,7 +23,7 @@ const Sort = ({ onClickItem, isVisible, setIsVisible, activeSortIndex }) => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setIsVisible(!isVisible)}>
+                <span onClick={() => dispatch(setIsSortVisible(!isVisible))}>
                     {selectedSort}
                 </span>
             </div>
@@ -29,9 +34,9 @@ const Sort = ({ onClickItem, isVisible, setIsVisible, activeSortIndex }) => {
                             return (
                                 <li
                                     key={i}
-                                    onClick={() => onClickItem(item, i)}
+                                    onClick={() => dispatch(setSortType(i))}
                                     className={
-                                        activeSortIndex === i ? 'active' : ''
+                                        selectedSort === item ? 'active' : ''
                                     }
                                 >
                                     {item}

@@ -1,10 +1,24 @@
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { SearchContext } from '../../App';
 import styles from './Search.module.scss';
 import closeIcon from '../../assets/img/closeIcon.svg';
+import { useDebounce } from '../../hooks/useDebounce';
 
 const Search = () => {
-    const { searchValue, setSearchValue } = useContext(SearchContext);
+    const [value, setValue] = useState('');
+    const { setSearchValue } = useContext(SearchContext);
+
+    const search = (value) => setSearchValue(value);
+
+    const debouncedSearch = useDebounce(search, 500);
+
+    const inputRef = useRef(null);
+
+    const onClickClear = () => {
+        setValue('');
+        setSearchValue('');
+        inputRef.current.focus();
+    };
 
     return (
         <div className={styles.root}>
@@ -19,17 +33,21 @@ const Search = () => {
                 </g>
             </svg>
             <input
+                ref={inputRef}
                 className={styles.input}
                 placeholder='Поиск пиццы ...'
-                onChange={(e) => setSearchValue(e.target.value)}
-                value={searchValue}
+                onChange={(e) => {
+                    setValue(e.target.value);
+                    debouncedSearch(e.target.value);
+                }}
+                value={value}
             />
-            {searchValue && (
+            {value && (
                 <img
                     src={closeIcon}
                     alt='closeIcon'
                     className={styles.closeIcon}
-                    onClick={() => setSearchValue('')}
+                    onClick={onClickClear}
                 />
             )}
         </div>
