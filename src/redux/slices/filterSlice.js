@@ -43,6 +43,29 @@ const filterSlice = createSlice({
         setCurrentPage: (state, action) => {
             state.currentPage = action.payload;
         },
+        setFilters: (state, action) => {
+            state.currentPage = +action.payload.currentPage;
+            state.activeCategoryIndex = +action.payload.activeCategoryIndex;
+            switch (action.payload.sortBy) {
+                case 'rating':
+                    state.sortType.sortProperty = 'rating';
+                    state.sortType.name = 'популярности';
+                    break;
+                case 'price':
+                    state.sortType.sortProperty = 'price';
+                    state.sortType.name = 'цене';
+                    break;
+                case 'title':
+                    state.sortType.sortProperty = 'title';
+                    state.sortType.name = 'алфавиту';
+                    break;
+                default:
+                    throw Error('Unknown active sort index');
+            }
+        },
+        setIsVisible: (state, action) => {
+            state.isSortVisible = action.payload;
+        },
     },
 });
 
@@ -55,4 +78,6 @@ export const {
     setIsSortVisible,
     setActiveCategoryIndex,
     setCurrentPage,
+    setFilters,
+    setIsVisible,
 } = actions;

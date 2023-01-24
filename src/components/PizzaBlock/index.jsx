@@ -1,8 +1,20 @@
-import React from 'react';
+import { addPizza } from '../../redux/slices/cartSlice';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-const PizzaBlock = ({ imageUrl, title, price, types, sizes }) => {
-    const [count, setCount] = useState(0);
+const PizzaBlock = ({ id, imageUrl, title, price, types, sizes }) => {
+    const dispatch = useDispatch();
+    const count = useSelector((state) => {
+        const filteredPizzas = state.cart.pizzas.filter(
+            (pizza) => pizza.title === title
+        );
+
+        return filteredPizzas.reduce(
+            (sum, currentPizza) => (sum += currentPizza.count),
+            0
+        );
+    });
+
     const [activeTypeIndex, setActiveTypeIndex] = useState(0);
     const [activeSizeIndex, setActiveSizeIndex] = useState(0);
     const typesNames = ['тонкое', 'традиционное'];
@@ -15,10 +27,8 @@ const PizzaBlock = ({ imageUrl, title, price, types, sizes }) => {
         setActiveSizeIndex(sizeIndex);
     };
 
-    const add = () => {
-        setCount((prev) => {
-            return ++prev;
-        });
+    const add = (pizza) => {
+        dispatch(addPizza(pizza));
     };
 
     return (
@@ -61,7 +71,16 @@ const PizzaBlock = ({ imageUrl, title, price, types, sizes }) => {
                 <div className='pizza-block__price'>от {price} ₽</div>
                 <div
                     className='button button--outline button--add'
-                    onClick={add}
+                    onClick={() =>
+                        add({
+                            imageUrl,
+                            price,
+                            title,
+                            type: typesNames[types[activeTypeIndex]],
+                            size: sizes[activeSizeIndex],
+                            count: 1,
+                        })
+                    }
                 >
                     <svg
                         width='12'
@@ -76,7 +95,7 @@ const PizzaBlock = ({ imageUrl, title, price, types, sizes }) => {
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>{count}</i>
+                    {!!count && <i>{count}</i>}
                 </div>
             </div>
         </div>
