@@ -1,14 +1,15 @@
-import { useContext, useRef, useState } from 'react';
-import { SearchContext } from '../../App';
+import { useRef, useState } from 'react';
 import styles from './Search.module.scss';
 import closeIcon from '../../assets/img/closeIcon.svg';
 import { useDebounce } from '../../hooks/useDebounce';
+import { setSearchValue } from '../../redux/slices/filterSlice';
+import { useDispatch } from 'react-redux';
 
 const Search = () => {
+    const dispatch = useDispatch();
     const [value, setValue] = useState('');
-    const { setSearchValue } = useContext(SearchContext);
 
-    const search = (value) => setSearchValue(value);
+    const search = (value) => dispatch(setSearchValue(value));
 
     const debouncedSearch = useDebounce(search, 500);
 
@@ -16,7 +17,7 @@ const Search = () => {
 
     const onClickClear = () => {
         setValue('');
-        setSearchValue('');
+        dispatch(setSearchValue(''));
         inputRef.current.focus();
     };
 

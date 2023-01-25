@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveCategoryIndex } from '../redux/slices/filterSlice';
 
-const Categories = () => {
+const Categories = memo(() => {
     const dispatch = useDispatch();
     const activeCategoryIndex = useSelector(
         (state) => state.filters.activeCategoryIndex
@@ -37,6 +38,6 @@ const Categories = () => {
             </ul>
         </div>
     );
-};
+});
 
 export default Categories;

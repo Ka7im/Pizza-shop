@@ -5,6 +5,11 @@
   text-align: center;
   margin-bottom: 65px;
   justify-self: center;
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   &__image {
     width: 260px;

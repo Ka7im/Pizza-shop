@@ -1,0 +1,26 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    h2 {
+        font-weight: 900;
+        font-size: 32px;
+    }
+
+    .price {
+        font-weight: bold;
+        font-size: 22px;
+    }
+
+    img {
+        width: 500px;
+        height: 500px;
+    }
+
+    .description {
+        width: 550px;
+        text-align: center;
+        font-size: 20px;
+    }
+}

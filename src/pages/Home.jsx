@@ -1,46 +1,42 @@
-import React, { useContext, useRef } from 'react';
+import { useRef } from 'react';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { setFilters } from '../redux/slices/filterSlice';
+import { fetchPizzas } from '../redux/slices/pizzasSlice';
 
 const Home = () => {
     const isSearch = useRef(false);
     const isMounted = useRef(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const sortBy = useSelector((state) => state.filters.sortType.sortProperty);
     const activeCategoryIndex = useSelector(
         (state) => state.filters.activeCategoryIndex
     );
     const currentPage = useSelector((state) => state.filters.currentPage);
-    const [pizzas, setPizzas] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const { searchValue } = useContext(SearchContext);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const pizzas = useSelector((state) => state.pizzas.items);
+    const status = useSelector((state) => state.pizzas.status);
+    const searchValue = useSelector((state) => state.filters.searchValue);
 
     const categorySort =
         activeCategoryIndex === 0 ? '' : `category=${activeCategoryIndex}`;
 
-    const fetchPizzas = () => {
-        setIsLoading(true);
-
-        axios
-            .get(
-                `https://63c96cbcc3e2021b2d573b81.mockapi.io/items?page=${currentPage}&limit=4&sortBy=${sortBy}&order=asc&${categorySort}&search=${searchValue}`
-            )
-            .then((response) => {
-                setPizzas(response.data);
-                setIsLoading(false);
-            });
+    const getPizzas = async () => {
+        try {
+            dispatch(
+                fetchPizzas({ categorySort, sortBy, currentPage, searchValue })
+            );
+        } catch (error) {
+            alert('Ошибка при получении пицц');
+        }
     };
 
     useEffect(() => {
@@ -61,7 +57,7 @@ const Home = () => {
             window.location.search ===
                 '?activeCategoryIndex=0&sortBy=rating&currentPage=1'
         ) {
-            fetchPizzas();
+            getPizzas();
         }
 
         isSearch.current = false;
@@ -93,15 +89,27 @@ const Home = () => {
                 <Sort />
             </div>
             <h2 className='content__title'>Все пиццы</h2>
-            <div className='content__items'>
-                {isLoading
-                    ? [...new Array(8)].map((_, index) => {
-                          return <Skeleton key={index} />;
-                      })
-                    : pizzas.map((pizza) => {
-                          return <PizzaBlock key={pizza.id} {...pizza} />;
-                      })}
-            </div>
+            {status === 'error' ? (
+                <div className='content__error-info'>
+                    <h2>
+                        Произошла ошибка <span>😕</span>
+                    </h2>
+                    <p>
+                        К сожалению, не удалось получить питсы. Попробуйте
+                        повторить попытку позже.
+                    </p>
+                </div>
+            ) : (
+                <div className='content__items'>
+                    {status === 'loading'
+                        ? [...new Array(4)].map((_, index) => {
+                              return <Skeleton key={index} />;
+                          })
+                        : pizzas.map((pizza) => {
+                              return <PizzaBlock key={pizza.id} {...pizza} />;
+                          })}
+                </div>
+            )}
             <Pagination />
         </div>
     );

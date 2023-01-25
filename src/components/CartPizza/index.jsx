@@ -10,6 +10,14 @@ const CartPizza = ({ id, title, type, size, price, count }) => {
 
     const isLessThenOne = count <= 1;
 
+    const onRemoveCertainPizza = () => {
+        const answer = window.confirm('Вы действительно хотите удалить товар?');
+
+        if (answer) {
+            dispatch(removeCertainPizzas(id));
+        }
+    };
+
     return (
         <div className='cart__item' bis_skin_checked='1'>
             <div className='cart__item-img' bis_skin_checked='1'>
@@ -76,7 +84,7 @@ const CartPizza = ({ id, title, type, size, price, count }) => {
             </div>
             <div className='cart__item-remove' bis_skin_checked='1'>
                 <div
-                    onClick={() => dispatch(removeCertainPizzas(id))}
+                    onClick={onRemoveCertainPizza}
                     className='button button--outline button--circle'
                     bis_skin_checked='1'
                 >

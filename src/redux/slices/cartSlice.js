@@ -65,30 +65,21 @@ const cartSlice = createSlice({
             }
         },
         removeAllPizzas: (state) => {
-            const answer = window.confirm('Очистить козину?');
-            if (answer) {
-                state.pizzas = [];
-                state.totalCount = 0;
-                state.totalPrice = 0;
-            }
+            state.pizzas = [];
+            state.totalCount = 0;
+            state.totalPrice = 0;
         },
         removeCertainPizzas: (state, action) => {
-            const answer = window.confirm(
-                'Вы действительно хотите удалить товар?'
-            );
+            for (let i = 0; i < state.pizzas.length; i++) {
+                if (state.pizzas[i].id === action.payload) {
+                    const certainPizzasCount = state.pizzas[i].count;
+                    const certainPizzasTotalPrice =
+                        certainPizzasCount * state.pizzas[i].price;
 
-            if (answer) {
-                for (let i = 0; i < state.pizzas.length; i++) {
-                    if (state.pizzas[i].id === action.payload) {
-                        const certainPizzasCount = state.pizzas[i].count;
-                        const certainPizzasTotalPrice =
-                            certainPizzasCount * state.pizzas[i].price;
-
-                        state.totalPrice -= certainPizzasTotalPrice;
-                        state.totalCount -= certainPizzasCount;
-                        state.pizzas.splice(i, 1);
-                        break;
-                    }
+                    state.totalPrice -= certainPizzasTotalPrice;
+                    state.totalCount -= certainPizzasCount;
+                    state.pizzas.splice(i, 1);
+                    break;
                 }
             }
         },

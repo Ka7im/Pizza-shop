@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+    searchValue: '',
     activeCategoryIndex: 0,
     currentPage: 1,
     sortType: {
@@ -33,6 +34,9 @@ const filterSlice = createSlice({
                 default:
                     throw Error('Unknown active sort index');
             }
+        },
+        setSearchValue: (state, action) => {
+            state.searchValue = action.payload;
         },
         setIsSortVisible: (state, action) => {
             state.isSortVisible = action.payload;
@@ -75,6 +79,7 @@ export default reducer;
 
 export const {
     setSortType,
+    setSearchValue,
     setIsSortVisible,
     setActiveCategoryIndex,
     setCurrentPage,

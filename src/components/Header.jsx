@@ -9,7 +9,7 @@ const Header = () => {
     const totalPrice = useSelector((state) => state.cart.totalPrice);
 
     const location = useLocation();
-    const isCartPage = location.pathname === '/cart';
+    const isHomePage = location.pathname === '/';
 
     return (
         <div className='header'>
@@ -23,8 +23,8 @@ const Header = () => {
                         </div>
                     </div>
                 </Link>
-                {!isCartPage && <Search />}
-                {!isCartPage && (
+                {isHomePage && <Search />}
+                {isHomePage && (
                     <div className='header__cart'>
                         <Link to='/cart' className='button button--cart'>
                             <span>{totalPrice} ₽</span>

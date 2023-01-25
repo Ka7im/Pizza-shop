@@ -12,6 +12,13 @@ const Cart = () => {
         shallowEqual
     );
 
+    const onRemoveAllPizzas = () => {
+        const answer = window.confirm('Очистить козину?');
+        if (answer) {
+            dispatch(removeAllPizzas());
+        }
+    };
+
     if (!totalCount) {
         return <CartEmpty />;
     }
@@ -55,7 +62,7 @@ const Cart = () => {
                     <div
                         className='cart__clear'
                         bis_skin_checked='1'
-                        onClick={() => dispatch(removeAllPizzas())}
+                        onClick={onRemoveAllPizzas}
                     >
                         <svg
                             width='20'
