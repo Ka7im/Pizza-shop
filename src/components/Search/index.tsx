@@ -1,24 +1,26 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, memo } from 'react';
 import styles from './Search.module.scss';
 import closeIcon from '../../assets/img/closeIcon.svg';
 import { useDebounce } from '../../hooks/useDebounce';
 import { setSearchValue } from '../../redux/slices/filterSlice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'redux/redux-hook';
 
-const Search = () => {
-    const dispatch = useDispatch();
+const Search = memo(() => {
+    const dispatch = useAppDispatch();
     const [value, setValue] = useState('');
 
-    const search = (value) => dispatch(setSearchValue(value));
+    const search = (value: string) => dispatch(setSearchValue(value));
 
     const debouncedSearch = useDebounce(search, 500);
 
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const onClickClear = () => {
         setValue('');
         dispatch(setSearchValue(''));
-        inputRef.current.focus();
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
     };
 
     return (
@@ -53,6 +55,6 @@ const Search = () => {
             )}
         </div>
     );
-};
+});
 
 export default Search;

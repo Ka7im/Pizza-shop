@@ -5,9 +5,13 @@ import { RouterProvider } from 'react-router-dom';
 import { store } from './redux/store';
 import router from './routes';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(
+    document.getElementById('root') as HTMLDivElement
+);
 root.render(
-    <Provider store={store}>
-        <RouterProvider router={router} />
-    </Provider>
+    <React.StrictMode>
+        <Provider store={store}>
+            <RouterProvider router={router} />
+        </Provider>
+    </React.StrictMode>
 );

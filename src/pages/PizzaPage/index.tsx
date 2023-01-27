@@ -1,18 +1,25 @@
 import axios from 'axios';
+import Spinner from 'components/Spinner';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from './PizzaPage.module.scss';
 
+interface IPizzaPage {
+    imageUrl: string;
+    title: string;
+    price: number;
+}
+
 const PizzaPage = () => {
     const { pizzaId } = useParams();
-    const [pizza, setPizza] = useState();
+    const [pizza, setPizza] = useState<IPizzaPage>();
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function fetchOnePizza(id) {
+        async function fetchOnePizza(id: string | undefined) {
             try {
-                const { data } = await axios.get(
+                const { data } = await axios.get<IPizzaPage>(
                     `https://63c96cbcc3e2021b2d573b81.mockapi.io/items/${id}`
                 );
 
@@ -28,15 +35,15 @@ const PizzaPage = () => {
     }, []);
 
     if (isLoading) {
-        return <div className='container'>Loading...</div>;
+        return <Spinner />;
     }
 
     return (
         <div className='container'>
             <div className={styles.wrapper}>
-                <img src={pizza.imageUrl} alt='pizza' />
-                <h2>{pizza.title}</h2>
-                <div className={styles.price}>{pizza.price} ₽</div>
+                <img src={pizza?.imageUrl} alt='pizza' />
+                <h2>{pizza?.title}</h2>
+                <div className={styles.price}>{pizza?.price} ₽</div>
                 <div className={styles.description}>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Vitae doloribus est non totam, eaque qui maxime impedit

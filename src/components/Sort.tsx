@@ -1,22 +1,18 @@
-import { useEffect, useRef, memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-    setSortType,
-    setIsSortVisible,
-    setIsVisible,
-} from '../redux/slices/filterSlice';
+import { useEffect, useRef, memo, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/redux-hook';
+import { setSortType } from '../redux/slices/filterSlice';
 
 const Sort = memo(() => {
-    const sortRef = useRef(null);
-    const dispatch = useDispatch();
-    const selectedSort = useSelector((state) => state.filters.sortType.name);
-    const isVisible = useSelector((state) => state.filters.isSortVisible);
+    const sortRef = useRef<HTMLDivElement>(null!);
+    const dispatch = useAppDispatch();
+    const selectedSort = useAppSelector((state) => state.filters.sortType.name);
+    const [isVisible, setIsVisible] = useState(false);
     const sortList = ['популярности', 'цене', 'алфавиту'];
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
+        const handleClickOutside = (event: MouseEvent) => {
             if (!event.composedPath().includes(sortRef.current)) {
-                dispatch(setIsVisible(false));
+                setIsVisible(false);
             }
         };
 
@@ -43,7 +39,7 @@ const Sort = memo(() => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => dispatch(setIsSortVisible(!isVisible))}>
+                <span onClick={() => setIsVisible(!isVisible)}>
                     {selectedSort}
                 </span>
             </div>

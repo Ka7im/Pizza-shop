@@ -1,30 +1,32 @@
-import { useRef } from 'react';
+import { useRef, memo } from 'react';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import { useEffect } from 'react';
 import Pagination from '../components/Pagination';
-import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
-import { setFilters } from '../redux/slices/filterSlice';
+import { setFilters, SortProperty } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzasSlice';
+import { useAppDispatch, useAppSelector } from 'redux/redux-hook';
 
-const Home = () => {
+const Home = memo(() => {
     const isSearch = useRef(false);
     const isMounted = useRef(false);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const sortBy = useSelector((state) => state.filters.sortType.sortProperty);
-    const activeCategoryIndex = useSelector(
+    const sortBy = useAppSelector(
+        (state) => state.filters.sortType.sortProperty
+    );
+    const activeCategoryIndex = useAppSelector(
         (state) => state.filters.activeCategoryIndex
     );
-    const currentPage = useSelector((state) => state.filters.currentPage);
-    const pizzas = useSelector((state) => state.pizzas.items);
-    const status = useSelector((state) => state.pizzas.status);
-    const searchValue = useSelector((state) => state.filters.searchValue);
+    const currentPage = useAppSelector((state) => state.filters.currentPage);
+    const pizzas = useAppSelector((state) => state.pizzas.items);
+    const status = useAppSelector((state) => state.pizzas.status);
+    const searchValue = useAppSelector((state) => state.filters.searchValue);
 
     const categorySort =
         activeCategoryIndex === 0 ? '' : `category=${activeCategoryIndex}`;
@@ -43,9 +45,19 @@ const Home = () => {
         if (window.location.search) {
             const params = qs.parse(window.location.search, {
                 ignoreQueryPrefix: true,
-            });
+            }) as {
+                activeCategoryIndex: string;
+                sortBy: SortProperty;
+                currentPage: string;
+            };
 
-            dispatch(setFilters(params));
+            dispatch(
+                setFilters({
+                    activeCategoryIndex: Number(params.activeCategoryIndex),
+                    sortBy: params.sortBy,
+                    currentPage: Number(params.currentPage),
+                })
+            );
 
             isSearch.current = true;
         }
@@ -113,6 +125,6 @@ const Home = () => {
             <Pagination />
         </div>
     );
-};
+});
 
 export default Home;

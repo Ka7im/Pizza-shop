@@ -1,11 +1,14 @@
 import { addPizza } from '../../redux/slices/cartSlice';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'redux/redux-hook';
+import { ICartPizza, IPizza } from 'types';
 
-const PizzaBlock = ({ id, imageUrl, title, price, types, sizes }) => {
-    const dispatch = useDispatch();
-    const count = useSelector((state) => {
+type PizzaBlockProps = Omit<IPizza, 'category' | 'rating'>;
+
+const PizzaBlock = ({ id, imageUrl, title, price, types, sizes }: PizzaBlockProps) => {
+    const dispatch = useAppDispatch();
+    const count = useAppSelector((state) => {
         const filteredPizzas = state.cart.pizzas.filter(
             (pizza) => pizza.title === title
         );
@@ -20,15 +23,15 @@ const PizzaBlock = ({ id, imageUrl, title, price, types, sizes }) => {
     const [activeSizeIndex, setActiveSizeIndex] = useState(0);
     const typesNames = ['тонкое', 'традиционное'];
 
-    const onClickType = (typeIndex) => {
+    const onClickType = (typeIndex: number) => {
         setActiveTypeIndex(typeIndex);
     };
 
-    const onClickSize = (sizeIndex) => {
+    const onClickSize = (sizeIndex: number) => {
         setActiveSizeIndex(sizeIndex);
     };
 
-    const add = (pizza) => {
+    const add = (pizza: Omit<ICartPizza, 'id'>) => {
         dispatch(addPizza(pizza));
     };
 

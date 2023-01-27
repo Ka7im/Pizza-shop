@@ -1,33 +1,72 @@
-import { createBrowserRouter } from 'react-router-dom';
+import {
+    createBrowserRouter,
+    createRoutesFromElements,
+    Route,
+} from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import App from './App';
-import Cart from './pages/Cart';
 import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-import PizzaPage from './pages/PizzaPage';
+import Spinner from 'components/Spinner';
 
-const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <App />,
-        children: [
-            {
-                index: true,
-                element: <Home />,
-            },
-            {
-                path: '/cart',
-                element: <Cart />,
-            },
-            {
-                path: 'pizzas/:pizzaId',
-                element: <PizzaPage />,
-            },
-            {
-                path: '*',
-                element: <NotFound />,
-            },
-        ],
-    },
-]);
+const Cart = lazy(() => import('./pages/Cart'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const PizzaPage = lazy(() => import('./pages/PizzaPage'));
+
+const router = createBrowserRouter(
+    createRoutesFromElements(
+        <Route path='/' element={<App />}>
+            <Route index element={<Home />} />
+            <Route
+                path='/cart'
+                element={
+                    <Suspense fallback={<Spinner />}>
+                        <Cart />
+                    </Suspense>
+                }
+            />
+            <Route
+                path='pizzas/:pizzaId'
+                element={
+                    <Suspense fallback={<Spinner />}>
+                        <PizzaPage />
+                    </Suspense>
+                }
+            />
+            <Route
+                path='*'
+                element={
+                    <Suspense fallback={<Spinner />}>
+                        <NotFound />
+                    </Suspense>
+                }
+            />
+        </Route>
+    )
+);
+
+// [
+//     {
+//         path: '/',
+//         element: <App />,
+//         children: [
+//             {
+//                 index: true,
+//                 element: <Home />,
+//             },
+//             {
+//                 path: '/cart',
+//                 element: <Cart />,
+//             },
+//             {
+//                 path: 'pizzas/:pizzaId',
+//                 element: <PizzaPage />,
+//             },
+//             {
+//                 path: '*',
+//                 element: <NotFound />,
+//             },
+//         ],
+//     },
+// ]
 
 export default router;

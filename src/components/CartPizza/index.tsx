@@ -1,12 +1,23 @@
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'redux/redux-hook';
+import { ICartPizza } from 'types';
 import {
     addPizzaFromCart,
     removePizzaFromCart,
     removeCertainPizzas,
 } from '../../redux/slices/cartSlice';
 
-const CartPizza = ({ id, title, type, size, price, count }) => {
-    const dispatch = useDispatch();
+type CartPizzaProps = ICartPizza;
+
+const CartPizza = ({
+    id,
+    title,
+    type,
+    size,
+    price,
+    count,
+    imageUrl,
+}: CartPizzaProps) => {
+    const dispatch = useAppDispatch();
 
     const isLessThenOne = count <= 1;
 
@@ -19,21 +30,21 @@ const CartPizza = ({ id, title, type, size, price, count }) => {
     };
 
     return (
-        <div className='cart__item' bis_skin_checked='1'>
-            <div className='cart__item-img' bis_skin_checked='1'>
+        <div className='cart__item'>
+            <div className='cart__item-img'>
                 <img
                     className='pizza-block__image'
-                    src='https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg'
+                    src={imageUrl}
                     alt='Pizza'
                 />
             </div>
-            <div className='cart__item-info' bis_skin_checked='1'>
+            <div className='cart__item-info'>
                 <h3>{title}</h3>
                 <p>
                     {type}, {size} см.
                 </p>
             </div>
-            <div className='cart__item-count' bis_skin_checked='1'>
+            <div className='cart__item-count'>
                 <button
                     className='button button--outline button--circle cart__item-count-minus'
                     disabled={isLessThenOne}
@@ -79,14 +90,13 @@ const CartPizza = ({ id, title, type, size, price, count }) => {
                     </svg>
                 </button>
             </div>
-            <div className='cart__item-price' bis_skin_checked='1'>
+            <div className='cart__item-price'>
                 <b>{price} ₽</b>
             </div>
-            <div className='cart__item-remove' bis_skin_checked='1'>
+            <div className='cart__item-remove'>
                 <div
                     onClick={onRemoveCertainPizza}
                     className='button button--outline button--circle'
-                    bis_skin_checked='1'
                 >
                     <svg
                         width='10'

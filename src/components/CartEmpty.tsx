@@ -2,7 +2,7 @@ import emptyCart from '../assets/img/empty-cart.png';
 
 const CartEmpty = () => {
     return (
-        <div class='cart cart--empty' bis_skin_checked='1'>
+        <div className='cart cart--empty'>
             <h2>
                 Корзина пустая <span>😕</span>
             </h2>
@@ -12,7 +12,7 @@ const CartEmpty = () => {
                 Для того, чтобы заказать пиццу, перейди на главную страницу.
             </p>
             <img src={emptyCart} alt='Empty cart' />
-            <a class='button button--black' href='/'>
+            <a className='button button--black' href='/'>
                 <span>Вернуться назад</span>
             </a>
         </div>

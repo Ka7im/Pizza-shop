@@ -1,13 +1,13 @@
-import React from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'redux/redux-hook';
 import CartEmpty from '../components/CartEmpty';
 import CartPizza from '../components/CartPizza';
 import { removeAllPizzas } from '../redux/slices/cartSlice';
 
 const Cart = () => {
-    const dispatch = useDispatch();
-    const { pizzas, totalCount, totalPrice } = useSelector(
+    const dispatch = useAppDispatch();
+    const { pizzas, totalCount, totalPrice } = useAppSelector(
         (state) => state.cart,
         shallowEqual
     );
@@ -25,8 +25,8 @@ const Cart = () => {
 
     return (
         <div className='container container--cart'>
-            <div className='cart' bis_skin_checked='1'>
-                <div className='cart__top' bis_skin_checked='1'>
+            <div className='cart'>
+                <div className='cart__top'>
                     <h2 className='content__title'>
                         <svg
                             width='18'
@@ -59,11 +59,7 @@ const Cart = () => {
                         </svg>
                         Корзина
                     </h2>
-                    <div
-                        className='cart__clear'
-                        bis_skin_checked='1'
-                        onClick={onRemoveAllPizzas}
-                    >
+                    <div className='cart__clear' onClick={onRemoveAllPizzas}>
                         <svg
                             width='20'
                             height='20'
@@ -103,13 +99,13 @@ const Cart = () => {
                         <span>Очистить корзину</span>
                     </div>
                 </div>
-                <div className='content__items' bis_skin_checked='1'>
+                <div className='content__items'>
                     {pizzas.map((pizza) => {
                         return <CartPizza key={pizza.id} {...pizza} />;
                     })}
                 </div>
-                <div className='cart__bottom' bis_skin_checked='1'>
-                    <div className='cart__bottom-details' bis_skin_checked='1'>
+                <div className='cart__bottom'>
+                    <div className='cart__bottom-details'>
                         <span>
                             {' '}
                             Всего пицц: <b>{totalCount} шт.</b>{' '}
@@ -119,7 +115,7 @@ const Cart = () => {
                             Сумма заказа: <b>{totalPrice} ₽</b>{' '}
                         </span>
                     </div>
-                    <div className='cart__bottom-buttons' bis_skin_checked='1'>
+                    <div className='cart__bottom-buttons'>
                         <Link
                             className='button button--outline button--add go-back-btn'
                             to='/'
@@ -141,7 +137,7 @@ const Cart = () => {
                             </svg>
                             <span>Вернуться назад</span>
                         </Link>
-                        <div className='button pay-btn' bis_skin_checked='1'>
+                        <div className='button pay-btn'>
                             <span>Оплатить сейчас</span>
                         </div>
                     </div>

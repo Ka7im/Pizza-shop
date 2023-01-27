@@ -1,12 +1,26 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
+import { shallowEqual } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { useAppSelector } from 'redux/redux-hook';
 import logo from '../assets/img/pizza-logo.svg';
 import Search from './Search';
 
 const Header = () => {
-    const totalCount = useSelector((state) => state.cart.totalCount);
-    const totalPrice = useSelector((state) => state.cart.totalPrice);
+    const isMounted = useRef(false);
+
+    const { totalCount, totalPrice, pizzas } = useAppSelector(
+        (state) => state.cart,
+        shallowEqual
+    );
+
+    useEffect(() => {
+        if (isMounted.current) {
+            const json = JSON.stringify({ totalCount, totalPrice, pizzas });
+            localStorage.setItem('cart', json);
+        }
+
+        isMounted.current = true;
+    }, [pizzas, totalCount, totalPrice]);
 
     const location = useLocation();
     const isHomePage = location.pathname === '/';

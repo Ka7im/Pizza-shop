@@ -1,9 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ICartPizza } from 'types';
+import { getCartFromLS } from 'utils/getCartFromLS';
 
-const initialState = {
-    pizzas: [],
-    totalPrice: 0,
-    totalCount: 0,
+export interface ICartSlice {
+    pizzas: ICartPizza[];
+    totalPrice: number;
+    totalCount: number;
+}
+
+const localStorageData = getCartFromLS();
+
+const initialState: ICartSlice = {
+    pizzas: localStorageData?.pizzas || [],
+    totalPrice: localStorageData?.totalPrice || 0,
+    totalCount: localStorageData?.totalCount || 0,
 };
 
 const counter = (count = 0) => {
@@ -18,7 +28,7 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addPizza: (state, action) => {
+        addPizza: (state, action: PayloadAction<Omit<ICartPizza, 'id'>>) => {
             const newPizza = action.payload;
             let isNewPizza = true;
 
@@ -44,7 +54,7 @@ const cartSlice = createSlice({
             state.totalPrice += newPizza.price;
             state.totalCount += 1;
         },
-        addPizzaFromCart: (state, action) => {
+        addPizzaFromCart: (state, action: PayloadAction<number>) => {
             for (let i = 0; i < state.pizzas.length; i++) {
                 if (state.pizzas[i].id === action.payload) {
                     state.pizzas[i].count++;
@@ -54,7 +64,7 @@ const cartSlice = createSlice({
                 }
             }
         },
-        removePizzaFromCart: (state, action) => {
+        removePizzaFromCart: (state, action: PayloadAction<number>) => {
             for (let i = 0; i < state.pizzas.length; i++) {
                 if (state.pizzas[i].id === action.payload) {
                     state.pizzas[i].count--;
@@ -69,7 +79,7 @@ const cartSlice = createSlice({
             state.totalCount = 0;
             state.totalPrice = 0;
         },
-        removeCertainPizzas: (state, action) => {
+        removeCertainPizzas: (state, action: PayloadAction<number>) => {
             for (let i = 0; i < state.pizzas.length; i++) {
                 if (state.pizzas[i].id === action.payload) {
                     const certainPizzasCount = state.pizzas[i].count;

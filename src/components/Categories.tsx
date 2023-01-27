@@ -1,10 +1,10 @@
 import { memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'redux/redux-hook';
 import { setActiveCategoryIndex } from '../redux/slices/filterSlice';
 
 const Categories = memo(() => {
-    const dispatch = useDispatch();
-    const activeCategoryIndex = useSelector(
+    const dispatch = useAppDispatch();
+    const activeCategoryIndex = useAppSelector(
         (state) => state.filters.activeCategoryIndex
     );
 
