@@ -2,25 +2,55 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    row-gap: 10px;
 
     h2 {
         font-weight: 900;
         font-size: 32px;
+
+        @media (max-width: 768px) {
+            font-size: 25px;
+        }
+
+        @media (max-width: 426px) {
+            font-size: 20px;
+        }
     }
 
     .price {
         font-weight: bold;
         font-size: 22px;
+
+        @media (max-width: 426px) {
+            font-size: 19px;
+        }
     }
 
     img {
         width: 500px;
         height: 500px;
+
+        @media (max-width: 768px) {
+            width: 45%;
+            height: 45%;
+        }
     }
 
     .description {
         width: 550px;
         text-align: center;
         font-size: 20px;
+
+        @media (max-width: 768px) {
+            width: 90%;
+        }
+
+        @media (max-width: 426px) {
+            font-size: 16px;
+        }
     }
+}
+
+button {
+    margin: 10px auto;
 }

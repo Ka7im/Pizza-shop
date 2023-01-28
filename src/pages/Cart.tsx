@@ -1,8 +1,7 @@
 import { shallowEqual } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'redux/redux-hook';
-import CartEmpty from '../components/CartEmpty';
-import CartPizza from '../components/CartPizza';
+import { CartEmpty, CartPizza } from 'components';
 import { removeAllPizzas } from '../redux/slices/cartSlice';
 
 const Cart = () => {

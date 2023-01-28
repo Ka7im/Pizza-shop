@@ -1,10 +1,5 @@
-import { useRef, memo } from 'react';
-import Categories from '../components/Categories';
-import Sort from '../components/Sort';
-import PizzaBlock from '../components/PizzaBlock';
-import Skeleton from '../components/PizzaBlock/Skeleton';
-import { useEffect } from 'react';
-import Pagination from '../components/Pagination';
+import { useRef, memo, useEffect } from 'react';
+import { Categories, Sort, Pagination, Skeleton, PizzaBlock } from 'components';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { setFilters, SortProperty } from '../redux/slices/filterSlice';

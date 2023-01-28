@@ -1,12 +1,39 @@
 .root {
     text-align: center;
     padding: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+
+    @media (max-width: 768px) {
+        padding: 50px
+    }
+
+    h2 {
+        @media (max-width: 426px) {
+            font-size: 21px;
+        }
+    }
 
     span {
+        display: block;
         font-size: 64px;
+
+        @media (max-width: 768px) {
+            font-size: 47px;
+        }
     }
 
     .description {
         font-size: 22px;
+
+        @media (max-width: 768px) {
+            font-size: 19px;
+        }
+
+        @media (max-width: 426px) {
+            font-size: 16px;
+        }
     }
 }
