@@ -23,13 +23,13 @@ export const fetchPizzas = createAsyncThunk(
     }
 );
 
-enum Status {
+export enum Status {
     loading = 'loading',
     success = 'success',
     error = 'error',
 }
 
-interface IPizzasSlice {
+export interface IPizzasSlice {
     items: IPizza[];
     status: Status;
 }
@@ -59,6 +59,8 @@ const pizzasSlice = createSlice({
             });
     },
 });
+
+
 
 const { actions, reducer } = pizzasSlice;
 

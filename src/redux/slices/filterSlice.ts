@@ -12,7 +12,7 @@ export enum SortProperty {
     title = 'title',
 }
 
-interface IFilterSlice {
+export interface IFilterSlice {
     searchValue: string;
     activeCategoryIndex: number;
     currentPage: number;

@@ -47,5 +47,13 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "jest": {
+        "transformIgnorePatterns": [
+            "node_modules/(?!axios)"
+        ]
+    },
+    "devDependencies": {
+        "sinon": "^15.0.1"
     }
 }

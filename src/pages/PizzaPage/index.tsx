@@ -41,7 +41,7 @@ const PizzaPage = () => {
 
     return (
         <div className='container'>
-            <div className={styles.wrapper}>
+            <div className={styles.wrapper} data-testid='pizza-page'>
                 <img src={pizza?.imageUrl} alt='pizza' />
                 <h2>{pizza?.title}</h2>
                 <div className={styles.price}>{pizza?.price} ₽</div>

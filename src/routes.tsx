@@ -12,37 +12,37 @@ const Cart = lazy(() => import('./pages/Cart'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const PizzaPage = lazy(() => import('./pages/PizzaPage'));
 
-const router = createBrowserRouter(
-    createRoutesFromElements(
-        <Route path='/' element={<App />}>
-            <Route index element={<Home />} />
-            <Route
-                path='/cart'
-                element={
-                    <Suspense fallback={<Spinner />}>
-                        <Cart />
-                    </Suspense>
-                }
-            />
-            <Route
-                path='pizzas/:pizzaId'
-                element={
-                    <Suspense fallback={<Spinner />}>
-                        <PizzaPage />
-                    </Suspense>
-                }
-            />
-            <Route
-                path='*'
-                element={
-                    <Suspense fallback={<Spinner />}>
-                        <NotFound />
-                    </Suspense>
-                }
-            />
-        </Route>
-    )
+export const routes = createRoutesFromElements(
+    <Route path='/' element={<App />}>
+        <Route index element={<Home />} />
+        <Route
+            path='/cart'
+            element={
+                <Suspense fallback={<Spinner />}>
+                    <Cart />
+                </Suspense>
+            }
+        />
+        <Route
+            path='pizzas/:pizzaId'
+            element={
+                <Suspense fallback={<Spinner />}>
+                    <PizzaPage />
+                </Suspense>
+            }
+        />
+        <Route
+            path='*'
+            element={
+                <Suspense fallback={<Spinner />}>
+                    <NotFound />
+                </Suspense>
+            }
+        />
+    </Route>
 );
+
+const Router = createBrowserRouter(routes);
 
 // [
 //     {
@@ -69,4 +69,4 @@ const router = createBrowserRouter(
 //     },
 // ]
 
-export default router;
+export default Router;

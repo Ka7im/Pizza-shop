@@ -49,6 +49,7 @@ const CartPizza = ({
                     className='button button--outline button--circle cart__item-count-minus'
                     disabled={isLessThenOne}
                     onClick={() => dispatch(removePizzaFromCart(id))}
+                    data-testid='decrease'
                 >
                     <svg
                         width='10'
@@ -71,6 +72,7 @@ const CartPizza = ({
                 <button
                     className='button button--outline button--circle cart__item-count-plus'
                     onClick={() => dispatch(addPizzaFromCart(id))}
+                    data-testid='increase'
                 >
                     <svg
                         width='10'
@@ -97,6 +99,7 @@ const CartPizza = ({
                 <div
                     onClick={onRemoveCertainPizza}
                     className='button button--outline button--circle'
+                    data-testid='delete'
                 >
                     <svg
                         width='10'

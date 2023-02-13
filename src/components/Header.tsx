@@ -40,7 +40,7 @@ const Header = () => {
                 {isHomePage && <Search />}
                 {isHomePage && (
                     <div className='header__cart'>
-                        <Link to='/cart' className='button button--cart'>
+                        <Link to='/cart' className='button button--cart' data-testid='link-to-cart-page'>
                             <span>{totalPrice} ₽</span>
                             <div className='button__delimiter'></div>
                             <svg

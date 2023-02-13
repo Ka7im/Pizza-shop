@@ -2,7 +2,7 @@ import { shallowEqual } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'redux/redux-hook';
 import { CartEmpty, CartPizza } from 'components';
-import { removeAllPizzas } from '../redux/slices/cartSlice';
+import { removeAllPizzas } from '../../redux/slices/cartSlice';
 
 const Cart = () => {
     const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ const Cart = () => {
 
     return (
         <div className='container container--cart'>
-            <div className='cart'>
+            <div className='cart' data-testid='cart-page'>
                 <div className='cart__top'>
                     <h2 className='content__title'>
                         <svg
@@ -58,7 +58,11 @@ const Cart = () => {
                         </svg>
                         Корзина
                     </h2>
-                    <div className='cart__clear' onClick={onRemoveAllPizzas}>
+                    <div
+                        className='cart__clear'
+                        onClick={onRemoveAllPizzas}
+                        data-testid='delete-all'
+                    >
                         <svg
                             width='20'
                             height='20'

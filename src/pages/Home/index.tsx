@@ -2,8 +2,8 @@ import { useRef, memo, useEffect } from 'react';
 import { Categories, Sort, Pagination, Skeleton, PizzaBlock } from 'components';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
-import { setFilters, SortProperty } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzasSlice';
+import { setFilters, SortProperty } from '../../redux/slices/filterSlice';
+import { fetchPizzas } from '../../redux/slices/pizzaSlice/pizzasSlice';
 import { useAppDispatch, useAppSelector } from 'redux/redux-hook';
 
 const Home = memo(() => {
@@ -68,8 +68,6 @@ const Home = memo(() => {
         }
 
         isSearch.current = false;
-
-        window.scrollTo(0, 0);
     }, [categorySort, sortBy, currentPage, searchValue]);
 
     useEffect(() => {

@@ -6,7 +6,14 @@ import { ICartPizza, IPizza } from 'types';
 
 type PizzaBlockProps = Omit<IPizza, 'category' | 'rating'>;
 
-const PizzaBlock = ({ id, imageUrl, title, price, types, sizes }: PizzaBlockProps) => {
+const PizzaBlock = ({
+    id,
+    imageUrl,
+    title,
+    price,
+    types,
+    sizes,
+}: PizzaBlockProps) => {
     const dispatch = useAppDispatch();
     const count = useAppSelector((state) => {
         const filteredPizzas = state.cart.pizzas.filter(
@@ -37,7 +44,7 @@ const PizzaBlock = ({ id, imageUrl, title, price, types, sizes }: PizzaBlockProp
 
     return (
         <div className='pizza-block'>
-            <Link to={`pizzas/${id}`}>
+            <Link to={`pizzas/${id}`} data-testid='link-to-pizza-page'>
                 <img
                     className='pizza-block__image'
                     src={imageUrl}

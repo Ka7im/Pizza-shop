@@ -2,7 +2,7 @@ import emptyCart from '../../assets/img/empty-cart.png';
 
 const CartEmpty = () => {
     return (
-        <div className='cart cart--empty'>
+        <div className='cart cart--empty' data-testid='cart-empty'>
             <h2>
                 Корзина пустая <span>😕</span>
             </h2>
