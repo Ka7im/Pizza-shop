@@ -13,3 +13,4 @@
 - CSS-Modules / SCSS (стилизация)
 - React Content Loader (скелетон)
 - React Pagination (пагинация)
+test
